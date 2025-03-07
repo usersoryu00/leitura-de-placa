@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Placas</title>
+</head>
+<body>
+    <h1>Consulta de Placas</h1>
+    <form id="form">
+        <label for="placa">Digite a placa do veículo:</label>
+        <input type="text" id="placa" name="placa" required>
+        <button type="submit">Consultar</button>
+    </form>
+
+    <div id="resultado"></div>
+
+    <script>
+        document.getElementById("form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var placa = document.getElementById("placa").value;
+            consultarPlaca(placa);
+        });
+
+        function consultarPlaca(placa) {
+            // Aqui você pode fazer uma requisição para seu backend ou usar Google Sheets API
+            fetch(`http://seu-backend.com/consultar-placa?placa=${placa}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.encontrado) {
+                        document.getElementById("resultado").innerText = `Placa encontrada: ${data.detalhes}`;
+                    } else {
+                        document.getElementById("resultado").innerText = "Placa não encontrada!";
+                    }
+                })
+                .catch(error => {
+                    document.getElementById("resultado").innerText = "Erro ao consultar a placa.";
+                });
+        }
+    </script>
+</body>
+</html>
